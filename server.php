@@ -1,9 +1,11 @@
 <?php
 include 'connection.inc';
+
 $ids = array();
 
 $query = "SELECT MAX(id) as s_id FROM subjects;
-		  SELECT MAX(id) as v_id FROM verbs";
+		  SELECT MAX(id) as v_id FROM verbs;
+		  SELECT MAX(id) as e_id FROM endings";
 
 $result = $con->multi_query($query) or die('Invalid query: ' . mysql_error());
 do{
@@ -26,4 +28,10 @@ $result = $con->query($query) or die('Invalid query: ' . mysql_error());
 $result = mysqli_fetch_assoc($result);
 $subject = $result['article'].' '.$result['name'];
 
-echo "You $verb $subject";
+$id_ending = rand (1, $ids['e_id']);
+$query = "SELECT phrase FROM endings WHERE id = $id_ending";
+$result = $con->query($query) or die('Invalid query: ' . mysql_error());
+$result = mysqli_fetch_assoc($result);
+$ending = $result['phrase'];
+
+echo "You $verb $subject $ending";
