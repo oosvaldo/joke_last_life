@@ -29,9 +29,9 @@ $result = mysqli_fetch_assoc($result);
 $subject = $result['article'].' '.$result['name'];
 
 $id_ending = rand (1, $ids['e_id']);
-$query = "SELECT phrase FROM endings WHERE id = $id_ending";
+$query = "SELECT value, phrase FROM endings as e INNER JOIN typesending as t on t.id = e.type WHERE e.id = $id_ending";
 $result = $con->query($query) or die('Invalid query: ' . mysql_error());
 $result = mysqli_fetch_assoc($result);
-$ending = $result['phrase'];
+$ending = $result['value'].' '.$result['phrase'];
 
 echo "You $verb $subject $ending";
